@@ -1,0 +1,449 @@
+﻿<Window x:Class="MakeBitMap.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MakeBitMap"
+        mc:Ignorable="d"
+        ResizeMode="CanResizeWithGrip" 
+        Closing="Window_Closing"
+        Title="MakeFontData" Height="960" Width="1350"  FontSize="14" Background="#fcfcfc" Foreground="#333333"  ContentRendered="Window_ContentRendered">
+    <Window.Resources>
+        <Style x:Key="FocusVisual">   <!--キー入力によるフォーカス -->
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="#333333" StrokeThickness="2" StrokeDashArray="1 1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style  TargetType= "{x:Type CheckBox}">  <!--チェックボックスコントールの外観と動作の設定-->
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <Grid>
+                            <Rectangle x:Name="CheckOFF" Width ="14" Height="14" Fill="#fcfcfc" Stroke="#333333" StrokeThickness="1"/> <!--チェックOFF時の長方形を定義-->
+                            <Rectangle x:Name="CheckON"  Width ="14" Height="14" Fill="#333333" Stroke="#333333" StrokeThickness="1"/> <!--チェックON時の長方形を定義-->
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">  <!--チェックONの場合 -->
+                                <Setter TargetName="CheckOFF" Property="Visibility" Value="Hidden" />  <!--チェックOFF時の長方形を隠す-->
+                                <Setter TargetName="CheckON" Property="Visibility" Value="Visible" />  <!--チェックON時の長方形を表示-->
+                             
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False"> <!--チェックOFFの場合 -->
+                                <Setter TargetName="CheckOFF" Property="Visibility" Value="Visible" />  <!--チェックOFF時の長方形を表示-->
+                                <Setter TargetName="CheckON" Property="Visibility" Value="Hidden" /> <!--チェックON時の長方形を隠す-->
+                            </Trigger>
+                           
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid Name ="grid1" ShowGridLines="False">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"  MinWidth="20"/>
+            <ColumnDefinition Width="AUTO"/>
+            <ColumnDefinition Width="5*"  MinWidth="40"/>
+            <ColumnDefinition Width="AUTO"/>
+            <ColumnDefinition Width="2*"  MinWidth="20"/>
+            <ColumnDefinition Width="AUTO"/>
+            <ColumnDefinition Width="2*" MinWidth="20" />
+
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8*"  MinHeight="180"/>
+            <RowDefinition Height="AUTO"/>
+            <RowDefinition Height="3*" MinHeight="20" />
+            
+        </Grid.RowDefinitions>
+
+
+        <GridSplitter Grid.Column="1" Grid.RowSpan="5" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Gainsboro"/>
+        <GridSplitter Grid.Column="3" Grid.RowSpan="5" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Gainsboro"/>
+        <GridSplitter Grid.Column="5" Grid.RowSpan="5" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Gainsboro"/>
+
+        <GridSplitter Grid.Row="1" Grid.ColumnSpan="7" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Gainsboro"/>
+
+        <DataGrid x:Name="BitMap_DataGrid"  Grid.Row="0" Grid.Column="2" Grid.RowSpan="1"  ItemsSource="{Binding}"  
+                  GridLinesVisibility="None" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False" 
+                  CanUserResizeColumns="False" AutoGenerateColumns="True" DataGrid.CanUserAddRows="False" LoadingRow="DataGrid_LoadingRow" 
+                  AutoGeneratingColumn="BitMap_DataGrid_AutoGeneratingColumn" EnableRowVirtualization="False" SelectionUnit="Cell"  SelectionMode="Single"
+                  RowHeight="16" Margin="0" >
+
+            <DataGrid.Resources>
+
+                <DataTemplate x:Key="b0">
+                    <CheckBox IsChecked="{Binding b0, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b1">
+                    <CheckBox IsChecked="{Binding b1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b2">
+                    <CheckBox IsChecked="{Binding b2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b3">
+                    <CheckBox IsChecked="{Binding b3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b4">
+                    <CheckBox IsChecked="{Binding b4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b5">
+                    <CheckBox IsChecked="{Binding b5, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b6">
+                    <CheckBox IsChecked="{Binding b6, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b7">
+                    <CheckBox IsChecked="{Binding b7, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+                
+                <DataTemplate x:Key="b8">
+                    <CheckBox IsChecked="{Binding b8, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b9">
+                    <CheckBox IsChecked="{Binding b9, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b10">
+                    <CheckBox IsChecked="{Binding b10, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b11">
+                    <CheckBox IsChecked="{Binding b11, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b12">
+                    <CheckBox IsChecked="{Binding b12, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b13">
+                    <CheckBox IsChecked="{Binding b13, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b14">
+                    <CheckBox IsChecked="{Binding b14, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b15">
+                    <CheckBox IsChecked="{Binding b15, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b16">
+                    <CheckBox IsChecked="{Binding b16, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b17">
+                    <CheckBox IsChecked="{Binding b17, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b18">
+                    <CheckBox IsChecked="{Binding b18, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b19">
+                    <CheckBox IsChecked="{Binding b19, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b20">
+                    <CheckBox IsChecked="{Binding b20, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b21">
+                    <CheckBox IsChecked="{Binding b21, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b22">
+                    <CheckBox IsChecked="{Binding b22, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b23">
+                    <CheckBox IsChecked="{Binding b23, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b24">
+                    <CheckBox IsChecked="{Binding b24, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b25">
+                    <CheckBox IsChecked="{Binding b25, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b26">
+                    <CheckBox IsChecked="{Binding b26, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b27">
+                    <CheckBox IsChecked="{Binding b27, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b28">
+                    <CheckBox IsChecked="{Binding b28, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b29">
+                    <CheckBox IsChecked="{Binding b29, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b30">
+                    <CheckBox IsChecked="{Binding b30, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b31">
+                    <CheckBox IsChecked="{Binding b31, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b32">
+                    <CheckBox IsChecked="{Binding b32, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b33">
+                    <CheckBox IsChecked="{Binding b33, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b34">
+                    <CheckBox IsChecked="{Binding b34, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b35">
+                    <CheckBox IsChecked="{Binding b35, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b36">
+                    <CheckBox IsChecked="{Binding b36, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b37">
+                    <CheckBox IsChecked="{Binding b37, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b38">
+                    <CheckBox IsChecked="{Binding b38, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b39">
+                    <CheckBox IsChecked="{Binding b39, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b40">
+                    <CheckBox IsChecked="{Binding b40, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b41">
+                    <CheckBox IsChecked="{Binding b41, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b42">
+                    <CheckBox IsChecked="{Binding b42, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b43">
+                    <CheckBox IsChecked="{Binding b43, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b44">
+                    <CheckBox IsChecked="{Binding b44, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b45">
+                    <CheckBox IsChecked="{Binding b45, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b46">
+                    <CheckBox IsChecked="{Binding b46, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b47">
+                    <CheckBox IsChecked="{Binding b47, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+                <DataTemplate x:Key="b48">
+                    <CheckBox IsChecked="{Binding b48, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b49">
+                    <CheckBox IsChecked="{Binding b49, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b50">
+                    <CheckBox IsChecked="{Binding b50, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b51">
+                    <CheckBox IsChecked="{Binding b51, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b52">
+                    <CheckBox IsChecked="{Binding b52, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b53">
+                    <CheckBox IsChecked="{Binding b53, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b54">
+                    <CheckBox IsChecked="{Binding b54, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b55">
+                    <CheckBox IsChecked="{Binding b55, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b56">
+                    <CheckBox IsChecked="{Binding b56, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b57">
+                    <CheckBox IsChecked="{Binding b57, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b58">
+                    <CheckBox IsChecked="{Binding b58, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b59">
+                    <CheckBox IsChecked="{Binding b59, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b60">
+                    <CheckBox IsChecked="{Binding b60, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b61">
+                    <CheckBox IsChecked="{Binding b61, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b62">
+                    <CheckBox IsChecked="{Binding b62, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="b63">
+                    <CheckBox IsChecked="{Binding b63, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+
+
+            </DataGrid.Resources>
+            
+            <DataGrid.Background>
+                <SolidColorBrush Color="#fcfcfc"/>
+            </DataGrid.Background>
+
+
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#fcfcfc"/>
+                    <Setter Property="Foreground" Value="#333333"/>
+                    <Setter Property="BorderBrush" Value="DimGray"/>
+                    <Setter Property="BorderThickness" Value="0.1"/>
+                  
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+
+         
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Background" Value="#fcfcfc" />
+                    <Setter Property="Foreground" Value="#333333" />
+                    <Setter Property="BorderBrush" Value="Gainsboro"/>
+                    <Setter Property="BorderThickness" Value="0.1"/>
+                </Style>
+            </DataGrid.CellStyle>
+
+
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="#fcfcfc" />
+                    <Setter Property="Foreground" Value="#333333" />
+                </Style>
+            </DataGrid.RowStyle>
+
+            <DataGrid.RowHeaderStyle>
+                <Style TargetType="DataGridRowHeader">
+                    <Setter Property="Background" Value= "#fcfcfc" />
+                    <Setter Property="Foreground" Value="#333333" />
+                    <Setter Property="Width" Value="26" />
+                </Style>
+            </DataGrid.RowHeaderStyle>
+
+        </DataGrid>
+
+
+        <Image x:Name="Src_Image" Stretch="Uniform" Grid.Row ="0" Grid.Column="0"  HorizontalAlignment="Left"  Margin ="10" VerticalAlignment="Top" />
+
+        <StackPanel Orientation ="Vertical" Margin="10" Grid.Row="2"  Grid.Column="0" >
+            <StackPanel Orientation="Horizontal" >
+                <Label Content="Input:" Margin="1,10,0,0"/>
+                <TextBox x:Name="Input_TB" Margin="0,10,0,0" Text="1"   MaxLength="8"/>
+                <Label Content="Size:" Margin="10,10,0,0"/>
+                <TextBox x:Name="FontSize_TB" Margin="0,12,0,10" />
+                <Label Content="Offset X:" Margin="10,10,0,0"/>
+                <TextBox x:Name="Offset_X_TB" Margin="0,12,0,10" Text="0" />
+                <Label Content="Offset Y:" Margin="10,10,0,0"/>
+                <TextBox x:Name="Offset_Y_TB" Margin="0,12,0,10" Text="0" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Button Content="Set"  Height="30"  Width="60" Margin="150,0,0,0" BorderBrush="#a6a6a6" Foreground ="#333333" Background="#fcfcfc" Click="Set_Char_Button_Click"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="80,20,0,0">
+                <Button x:Name="ImageUp_Button" IsEnabled="False"  Content="Up"  Height="30"  Width="60" Margin="0,0,15,0" BorderBrush="#a6a6a6" Foreground ="#333333" Background="#fcfcfc" Click="Image_Move_Up_Button_Click"/>
+                <Button x:Name="ImageDown_Button" IsEnabled="False" Content="Down"  Height="30"  Width="60" Margin="0,0,0,0" BorderBrush="#a6a6a6" Foreground ="#333333" Background="#fcfcfc" Click="Image_Move_Down_Button_Click"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="80,10,0,0">
+                <Button x:Name="ImageLeft_Button" IsEnabled="False" Content="Left"  Height="30"  Width="60" Margin="0,0,15,0" BorderBrush="#a6a6a6" Foreground ="#333333" Background="#fcfcfc" Click="Image_Move_Left_Button_Click"/>
+                <Button x:Name="ImageRight_Button" IsEnabled="False" Content="Right"  Height="30"  Width="60" Margin="0,0,0,0" BorderBrush="#a6a6a6" Foreground ="#333333" Background="#fcfcfc" Click="Image_Move_Right_Button_Click"/>
+            </StackPanel>
+
+        </StackPanel>
+
+        
+        <Image x:Name="Bit_Image" Grid.Row="0" Grid.Column="4" Grid.RowSpan="1"   HorizontalAlignment="Left"  Margin ="10" VerticalAlignment="Top"  />
+
+        <StackPanel Orientation="Vertical" Grid.Row="0"  Grid.Column="6" Grid.RowSpan="1" Background="White" Grid.ColumnSpan="2" Margin="4.286,0,1.286,0">
+            <Button Content="Save Bit" Height="30" Margin="50,60,50,0" BorderBrush="#a6a6a6" Foreground ="#333333" Background="#fcfcfc" Click="Save_Button_Click"/>
+            <Button Content="Save Pack Bit" Height="30" Margin="50,30,50,0" BorderBrush="#a6a6a6" Foreground ="#333333" Background="#fcfcfc" Click="Save_Pack_Button_Click"/>
+
+            <Button Content="Load Bit" Height="30" Margin="50,80,50,0" BorderBrush="#a6a6a6" Foreground ="#333333" Background="#fcfcfc" Click="Load_Button_Click"/>
+            <Button Content="Load Pack Bit" Height="30" Margin="50,30,50,0" BorderBrush="#a6a6a6" Foreground ="#333333" Background="#fcfcfc" Click="Load_Pack_Button_Click"/>
+
+            <Button Content="Load image" Height="30" Margin="50,80,50,10" BorderBrush="#a6a6a6" Foreground ="#333333" Background="#fcfcfc" Click="Load_image_Button_Click" />
+            <StackPanel Orientation="Horizontal" >
+                <Label Content="File name:"  Margin="2,4,0,0"/>
+                <TextBlock x:Name="tB_Load_image_FileName"   Margin="5,10,0,0" TextWrapping="Wrap" Text="Image_filename" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" >
+                <Label Content="Pixel size:"  Margin="2,4,0,0"/>
+                <TextBlock x:Name="tB_Load_image_File_pixel_size"   Margin="5,10,0,0" TextWrapping="Wrap" Text="pixel size" />
+            </StackPanel>
+
+        </StackPanel>
+
+        <ScrollViewer x:Name ="RGB565_BitMapDataScrol"  Grid.Row="2" Grid.Column="6"  HorizontalAlignment="Left" VerticalAlignment="Top"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
+            <TextBlock x:Name="tB_RGB565_BitMapData" HorizontalAlignment="Left" VerticalAlignment="Top"  TextWrapping="NoWrap"  />
+        </ScrollViewer>
+
+        <ScrollViewer x:Name ="BitMapDataScroll"  Grid.Row="2" Grid.Column="2"  HorizontalAlignment="Left" VerticalAlignment="Top"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <TextBlock x:Name="tB_BitMapData" HorizontalAlignment="Left" VerticalAlignment="Top"  TextWrapping="NoWrap"  Text="BitMap_data" />
+        </ScrollViewer>
+
+        <ScrollViewer x:Name ="BitMapPackDataScroll"  Grid.Row="2" Grid.Column="4"  HorizontalAlignment="Left" VerticalAlignment="Top"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <TextBlock x:Name="tB_BitMapPackData" HorizontalAlignment="Left" VerticalAlignment="Top"  TextWrapping="NoWrap"  Text="BitMapPack_data" />
+        </ScrollViewer>
+    </Grid>
+</Window>
